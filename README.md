@@ -33,7 +33,7 @@ Yes, you need MongoDB for this project. The backend stores notes in a database.
 ### 1. Backend
 
 ```bash
-cd notes-management/backend
+cd backend
 npm install
 copy .env.example .env   # Windows
 # cp .env.example .env   # macOS/Linux
@@ -45,7 +45,7 @@ Backend runs at `http://localhost:5000`
 ### 2. Frontend
 
 ```bash
-cd notes-management/frontend
+cd frontend
 npm install
 npm run dev
 ```
@@ -55,8 +55,9 @@ Frontend runs at `http://localhost:5173`
 ### 3. Core Debugging Task (optional run)
 
 ```bash
-cd notes-management/core/buggy-code
-node debugging-assignment.js
+cd core/buggy-code
+npm install
+npm start
 ```
 
 Runs a standalone Express server on port 3000 with all bugs fixed.
@@ -93,7 +94,6 @@ Runs a standalone Express server on port 3000 with all bugs fixed.
 ## Project Structure
 
 ```
-notes-management/
 ├── backend/
 │   └── src/
 │       ├── index.js
@@ -107,6 +107,9 @@ notes-management/
 │       └── services/api.js
 └── core/
     └── buggy-code/
-        └── debugging-assignment.js   ← fixed core debugging task
+        └── debugging-assignment.js
 ```
 
+## debugging-assignment.js
+
+This is the **mandatory core debugging task**. It contained intentionally broken Express code (wrong variables, type mismatches, assignment vs comparison bugs, missing async/await, etc.). It has been fixed and now runs as a standalone server on port 3000.
