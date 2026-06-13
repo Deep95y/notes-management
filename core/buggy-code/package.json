@@ -1,0 +1,11 @@
+{
+  "name": "debugging-assignment",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node debugging-assignment.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}
