@@ -110,6 +110,3 @@ Runs a standalone Express server on port 3000 with all bugs fixed.
         └── debugging-assignment.js
 ```
 
-## debugging-assignment.js
-
-This is the **mandatory core debugging task**. It contained intentionally broken Express code (wrong variables, type mismatches, assignment vs comparison bugs, missing async/await, etc.). It has been fixed and now runs as a standalone server on port 3000.
