@@ -39,3 +39,4 @@ export default function ConfirmDialog({ title, message, onConfirm, onCancel }) {
     </div>
   );
 }
+

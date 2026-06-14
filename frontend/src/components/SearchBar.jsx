@@ -33,3 +33,4 @@ export default function SearchBar({ onSearch, placeholder = "Search notes..." })
     </form>
   );
 }
+

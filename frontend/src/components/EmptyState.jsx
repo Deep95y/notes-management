@@ -12,3 +12,4 @@ export default function EmptyState({ message, actionLabel, actionTo }) {
     </div>
   );
 }
+

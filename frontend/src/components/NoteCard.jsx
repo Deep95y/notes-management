@@ -49,3 +49,4 @@ export default function NoteCard({ note, onDelete, onTogglePin }) {
     </article>
   );
 }
+

@@ -24,3 +24,4 @@ export default function TagFilter({ tags, selectedTag, onSelectTag }) {
     </div>
   );
 }
+

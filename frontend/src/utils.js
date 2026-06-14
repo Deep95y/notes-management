@@ -12,3 +12,4 @@ export function getPreview(content, maxLength = 120) {
   if (trimmed.length <= maxLength) return trimmed;
   return `${trimmed.slice(0, maxLength)}...`;
 }
+
