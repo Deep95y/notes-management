@@ -14,7 +14,11 @@ app.use(cors());
 app.use(express.json());
 
 app.get("/health", (req, res) => {
-  res.json({ status: "ok" });
+  const dbReady = mongoose.connection.readyState === 1;
+  res.status(dbReady ? 200 : 503).json({
+    status: dbReady ? "ok" : "degraded",
+    db: dbReady ? "connected" : "disconnected",
+  });
 });
 
 app.use("/api/notes", notesRouter);
@@ -25,12 +29,29 @@ app.use((req, res) => {
 
 app.use(errorHandler);
 
+async function connectWithRetry(retries = 12, delayMs = 3000) {
+  for (let attempt = 1; attempt <= retries; attempt += 1) {
+    try {
+      await mongoose.connect(MONGODB_URI);
+      console.log("Connected to MongoDB");
+      return;
+    } catch (err) {
+      console.error(
+        `MongoDB connection attempt ${attempt}/${retries} failed: ${err.message}`
+      );
+      if (attempt === retries) {
+        throw err;
+      }
+      await new Promise((resolve) => setTimeout(resolve, delayMs));
+    }
+  }
+}
+
 async function start() {
   try {
-    await mongoose.connect(MONGODB_URI);
-    console.log("Connected to MongoDB");
+    await connectWithRetry();
 
-    app.listen(PORT, () => {
+    app.listen(PORT, "0.0.0.0", () => {
       console.log(`Server running on port ${PORT}`);
     });
   } catch (err) {

@@ -1,0 +1,20 @@
+# Optional Ingress. Install an ingress controller first, e.g. on k3s it is
+# already included. On minikube: minikube addons enable ingress
+#
+# kubectl apply -f k8s/ingress.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: notes
+  namespace: notes
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: frontend
+                port:
+                  number: 80

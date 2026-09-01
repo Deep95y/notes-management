@@ -1,0 +1,16 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - namespace.yaml
+  - mongo.yaml
+  - backend.yaml
+  - frontend.yaml
+
+images:
+  - name: notes-backend
+    newName: ghcr.io/deep95y/notes-management-backend
+    newTag: latest
+  - name: notes-frontend
+    newName: ghcr.io/deep95y/notes-management-frontend
+    newTag: latest
