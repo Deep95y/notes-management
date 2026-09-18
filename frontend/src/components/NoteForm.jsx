@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 
-function parseTagsInput(value) {
-  return value
-    .split(",")
-    .map((tag) => tag.trim())
-    .filter(Boolean);
+export const TAG_OPTIONS = ["work", "ideas", "personal"];
+
+function tagFromList(tags) {
+  const list = tags || [];
+  const known = list.find((tag) => TAG_OPTIONS.includes(tag));
+  return known || list[0] || "";
 }
 
 export default function NoteForm({
@@ -17,9 +18,7 @@ export default function NoteForm({
 }) {
   const [title, setTitle] = useState(initialValues.title);
   const [content, setContent] = useState(initialValues.content);
-  const [tagsInput, setTagsInput] = useState(
-    (initialValues.tags || []).join(", ")
-  );
+  const [selectedTag, setSelectedTag] = useState(tagFromList(initialValues.tags));
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [autoSaveStatus, setAutoSaveStatus] = useState("idle");
@@ -29,7 +28,7 @@ export default function NoteForm({
   useEffect(() => {
     setTitle(initialValues.title);
     setContent(initialValues.content);
-    setTagsInput((initialValues.tags || []).join(", "));
+    setSelectedTag(tagFromList(initialValues.tags));
     skipAutoSave.current = true;
   }, [initialValues.title, initialValues.content, initialValues.tags]);
 
@@ -50,7 +49,7 @@ export default function NoteForm({
         await onAutoSave({
           title: title.trim(),
           content: content.trim(),
-          tags: parseTagsInput(tagsInput),
+          tags: selectedTag ? [selectedTag] : [],
         });
         setAutoSaveStatus("saved");
       } catch (err) {
@@ -60,7 +59,7 @@ export default function NoteForm({
     }, 1000);
 
     return () => clearTimeout(autoSaveTimer.current);
-  }, [title, content, tagsInput, autoSave, noteId, onAutoSave]);
+  }, [title, content, selectedTag, autoSave, noteId, onAutoSave]);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -76,7 +75,7 @@ export default function NoteForm({
       await onSubmit({
         title: title.trim(),
         content: content.trim(),
-        tags: parseTagsInput(tagsInput),
+        tags: selectedTag ? [selectedTag] : [],
       });
     } catch (err) {
       setError(err.message || "Failed to save note");
@@ -112,14 +111,22 @@ export default function NoteForm({
 
       <div className="form-group">
         <label htmlFor="tags">Tags</label>
-        <input
+        <select
           id="tags"
-          type="text"
-          value={tagsInput}
-          onChange={(e) => setTagsInput(e.target.value)}
-          placeholder="work, ideas, personal (comma-separated)"
+          value={selectedTag}
+          onChange={(e) => setSelectedTag(e.target.value)}
           disabled={loading}
-        />
+        >
+          <option value="">Select a category</option>
+          {TAG_OPTIONS.map((tag) => (
+            <option key={tag} value={tag}>
+              {tag}
+            </option>
+          ))}
+          {selectedTag && !TAG_OPTIONS.includes(selectedTag) && (
+            <option value={selectedTag}>{selectedTag}</option>
+          )}
+        </select>
       </div>
 
       <div className="form-group">

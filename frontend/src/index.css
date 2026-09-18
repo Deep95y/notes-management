@@ -256,17 +256,24 @@ a {
 }
 
 .form-group input,
-.form-group textarea {
+.form-group textarea,
+.form-group select {
   width: 100%;
   padding: 0.75rem 1rem;
   border: 1px solid var(--border);
   border-radius: 8px;
   font: inherit;
   resize: vertical;
+  background: var(--surface, #fff);
+}
+
+.form-group select {
+  cursor: pointer;
 }
 
 .form-group input:focus,
 .form-group textarea:focus,
+.form-group select:focus,
 .search-bar input:focus {
   outline: 2px solid rgba(37, 99, 235, 0.25);
   border-color: var(--primary);
